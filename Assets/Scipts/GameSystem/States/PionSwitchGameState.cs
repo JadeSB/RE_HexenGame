@@ -17,12 +17,16 @@ namespace GameSystem.States
 
         public override void OnEnter()
         {
-            if (_roundCounter == _enemyViews.Count)
+            RoundCounterUpdate();
+            ChangePion();
+        }
+
+        private void RoundCounterUpdate()
+        {
+            if (_roundCounter == _enemyViews.Count - 1)
                 _roundCounter -= _roundCounter;
             else
                 _roundCounter++;
-
-            ChangePion();
         }
 
         public void ChangePion()
@@ -39,15 +43,14 @@ namespace GameSystem.States
             {
                 currentPlayer.IsPlayer = true;
                 currentPlayer.ModelStatuesChanged();
+                GameLoop.Instance.CurrenPlayer = currentPlayer;
+                StateMachine.MoveTo(GameStates.CardActivation);
             }
-            else
+            else if(GameLoop.Instance.Board.PieceAt(playerTile) == null)
             {
-                _roundCounter++;
+                RoundCounterUpdate();
                 ChangePion();
-            }
-
-            GameLoop.Instance.CurrenPlayer = currentPlayer;
-            StateMachine.MoveTo(GameStates.CardActivation);
+            }            
         }
     }
 }

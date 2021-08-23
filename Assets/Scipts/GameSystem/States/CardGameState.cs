@@ -64,10 +64,11 @@ namespace GameSystem.States
             {
                 Hand.Remove(_cardName);
                 _cardAction = null;
-                Hand.FillHand();
-                _moveCounter++;
-                SwitchPlayer();
+                Hand.FillHand();               
             }
+
+            _moveCounter++;
+            SwitchPlayer();
         }
 
         public override void OnPointerExit(Tile model)
@@ -80,8 +81,9 @@ namespace GameSystem.States
         {
             if(_moveCounter == 2)
             {
-                StateMachine.MoveTo(GameStates.PionActivation);
                 _moveCounter -= _moveCounter;
+                StateMachine.MoveTo(GameStates.PionActivation);
+                
             }
         }
     }

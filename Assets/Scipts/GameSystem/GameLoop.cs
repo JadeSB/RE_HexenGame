@@ -35,6 +35,11 @@ namespace GameSystem
 
         StateMachine<GameStateBase> _stateMachine;
 
+        private void Update()
+        {
+            Debug.Log(CurrenPlayer);
+        }
+
         private void Awake()
         {
             _stateMachine = new StateMachine<GameStateBase>();
