@@ -27,8 +27,10 @@ namespace GameSystem
 
         private List<Tile> _validTiles = new List<Tile>();
 
-        private PlayerView _playerView;
+        //private PlayerView _playerView;
         private List<EnemyView> _enemyViews = new List<EnemyView>();
+
+        private EnemyView _currentPlayer;
 
         private void Awake()
         {
@@ -47,7 +49,7 @@ namespace GameSystem
 
             Hand = new Hand<BoardPiece>(_deck, 5);
 
-            ConnectCharacterViewsToModel();
+            //ConnectCharacterViewsToModel();
             ConnectEnemyViewsToModel();
             ConnectHandViewsToModel();           
             Hand.FillHand();
@@ -77,21 +79,21 @@ namespace GameSystem
             handler?.Invoke(this, arg);
         }
 
-        private void ConnectCharacterViewsToModel()
-        {
-            _playerView = FindObjectOfType<PlayerView>();
+        //private void ConnectCharacterViewsToModel()
+        //{
+        //    _playerView = FindObjectOfType<PlayerView>();
 
-            var worldPosition = _playerView.transform.position;
-            var boardPosition = _positionHelper.ToBoardPosition(worldPosition);
+        //    var worldPosition = _playerView.transform.position;
+        //    var boardPosition = _positionHelper.ToBoardPosition(worldPosition);
 
-            var tile = Board.TileAt(boardPosition);
+        //    var tile = Board.TileAt(boardPosition);
 
-            var character = new BoardPiece(_playerView.IsPlayer);
-            _playerView.Model = character;
+        //    var character = new BoardPiece(_playerView.IsPlayer);
+        //    _playerView.Model = character;
 
-            Board.Place(tile, character);
+        //    Board.Place(tile, character);
 
-        }
+        //}
 
         public void Select(Tile hoverTile)
         {
@@ -105,7 +107,7 @@ namespace GameSystem
 
         private Tile GetPlayerTile()
         {
-            return Board.TileOf(_playerView.Model);
+            return Board.TileOf(_currentPlayer.Model);
         }
 
         public void Select(string name)
