@@ -19,12 +19,18 @@ namespace GameSystem.States
         public Hand<BoardPiece> Hand = null;
         private EnemyView _currentPlayer;
 
-        public CardGameState(Board<BoardPiece> board, EnemyView currentPlayer, Deck<BoardPiece> deck, Hand<BoardPiece> hand)
+        private int _moveCounter = 0;
+
+        public CardGameState(Board<BoardPiece> board, Deck<BoardPiece> deck, Hand<BoardPiece> hand)
         {
             Board = board;       
             _deck = deck;
-            Hand = hand;
-            _currentPlayer = currentPlayer;
+            Hand = hand;            
+        }
+
+        public override void OnEnter()
+        {
+            _currentPlayer = GameLoop.Instance.CurrenPlayer;
         }
 
         public override void Select(Tile hoverTile)
@@ -59,6 +65,8 @@ namespace GameSystem.States
                 Hand.Remove(_cardName);
                 _cardAction = null;
                 Hand.FillHand();
+                _moveCounter++;
+                SwitchPlayer();
             }
         }
 
@@ -66,6 +74,15 @@ namespace GameSystem.States
         {
             Board.Unhighlight(_validTiles);
             _validTiles.Clear();
+        }
+
+        private void SwitchPlayer()
+        {
+            if(_moveCounter == 2)
+            {
+                StateMachine.MoveTo(GameStates.PionActivation);
+                _moveCounter -= _moveCounter;
+            }
         }
     }
 }

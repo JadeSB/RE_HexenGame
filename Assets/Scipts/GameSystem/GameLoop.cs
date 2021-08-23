@@ -31,7 +31,7 @@ namespace GameSystem
        
         private List<EnemyView> _enemyViews = new List<EnemyView>();
 
-        private EnemyView _currenPlayer;
+        public EnemyView CurrenPlayer;
 
         StateMachine<GameStateBase> _stateMachine;
 
@@ -57,8 +57,8 @@ namespace GameSystem
             ConnectHandViewsToModel();           
             Hand.FillHand();
 
-            _stateMachine.RegisterState(GameStates.CardActivation, new CardGameState(Board, _currenPlayer, _deck, Hand));
-            //_stateMachine.RegisterState(GameStates.Replay, new ReplayGameState(replayManager));  -------------- TODO
+            _stateMachine.RegisterState(GameStates.CardActivation, new CardGameState(Board, _deck, Hand));
+            _stateMachine.RegisterState(GameStates.PionActivation, new PionSwitchGameState(_enemyViews, CurrenPlayer));
             _stateMachine.MoveTo(GameStates.CardActivation);
         }
 
@@ -124,9 +124,9 @@ namespace GameSystem
                 _enemyViews.Add(enemyView);
             }
 
-            _currenPlayer = enemyViews[0];
-            _currenPlayer.IsPlayer = true;            
-            _currenPlayer.ModelStatuesChanged();
+            CurrenPlayer = enemyViews[0];
+            CurrenPlayer.IsPlayer = true;
+            CurrenPlayer.ModelStatuesChanged();
         }
     }
 }
