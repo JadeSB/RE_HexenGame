@@ -1,8 +1,10 @@
 ﻿using BoardSystem;
 using GameSystem.CardCommands;
 using GameSystem.Models;
+using GameSystem.States;
 using GameSystem.Views;
 using MoveSystem;
+using StateSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,15 +28,16 @@ namespace GameSystem
         public HandView HandView = null;
 
         private List<Tile> _validTiles = new List<Tile>();
-
-        //private PlayerView _playerView;
+       
         private List<EnemyView> _enemyViews = new List<EnemyView>();
 
-        public EnemyView CurrentPlayer;
+        private EnemyView _currenPlayer;
+
+        StateMachine<GameStateBase> _stateMachine;
 
         private void Awake()
         {
-
+            _stateMachine = new StateMachine<GameStateBase>();
             _deck.Register(PushBackCommand.NAME, new PushBackCommand());
             _deck.AddCart(PushBackCommand.NAME, 10);
 
@@ -49,10 +52,14 @@ namespace GameSystem
 
             Hand = new Hand<BoardPiece>(_deck, 5);
 
-            //ConnectCharacterViewsToModel();
+           
             ConnectEnemyViewsToModel();
             ConnectHandViewsToModel();           
             Hand.FillHand();
+
+            _stateMachine.RegisterState(GameStates.CardActivation, new CardGameState(Board, _currenPlayer, _deck, Hand));
+            //_stateMachine.RegisterState(GameStates.Replay, new ReplayGameState(replayManager));  -------------- TODO
+            _stateMachine.MoveTo(GameStates.CardActivation);
         }
 
         private void Start()
@@ -77,73 +84,27 @@ namespace GameSystem
         {
             EventHandler handler = Initialized;
             handler?.Invoke(this, arg);
-        }
-
-        //private void ConnectCharacterViewsToModel()
-        //{
-        //    _playerView = FindObjectOfType<PlayerView>();
-
-        //    var worldPosition = _playerView.transform.position;
-        //    var boardPosition = _positionHelper.ToBoardPosition(worldPosition);
-
-        //    var tile = Board.TileAt(boardPosition);
-
-        //    var character = new BoardPiece(_playerView.IsPlayer);
-        //    _playerView.Model = character;
-
-        //    Board.Place(tile, character);
-
-        //}
+        }        
 
         public void Select(Tile hoverTile)
         {
-
-            if (_cardAction == null)
-                return;
-
-            _validTiles = _cardAction.Tiles(Board, GetPlayerTile(), hoverTile);
-            Board.Highlight(_validTiles);
-        }
-
-        private Tile GetPlayerTile()
-        {
-            return Board.TileOf(CurrentPlayer.Model);
-        }
+            _stateMachine.CurrentState.Select(hoverTile);
+        }        
 
         public void Select(string name)
         {
-            _cardName = name;
-            _cardAction = _deck.Action(name);
+            _stateMachine.CurrentState.Select(name);
         }
 
         public  void OnDrop(Tile hoverTile)
         {
 
-            if (_validTiles.Contains(hoverTile))
-            {
-                Board.Unhighlight(_validTiles);
-                _validTiles.Clear();
-
-                if (_cardAction == null)
-                    return;
-
-                if (_cardAction.Execute(Board, GetPlayerTile(), hoverTile))
-                {
-                    Hand.Remove(_cardName);
-                    _cardAction = null;                   
-                    Hand.FillHand();
-                }
-            }
-            else
-            {
-                _cardAction = null;
-            }           
+            _stateMachine.CurrentState.OnDrop(hoverTile);
         }
 
         public  void OnPointerExit(Tile model)
         {
-            Board.Unhighlight(_validTiles);
-            _validTiles.Clear();
+            _stateMachine.CurrentState.OnPointerExit(model);
         }
 
         private void ConnectEnemyViewsToModel()
@@ -163,9 +124,9 @@ namespace GameSystem
                 _enemyViews.Add(enemyView);
             }
 
-            CurrentPlayer = enemyViews[0];
-            CurrentPlayer.IsPlayer = true;            
-            CurrentPlayer.ModelStatuesChanged();
+            _currenPlayer = enemyViews[0];
+            _currenPlayer.IsPlayer = true;            
+            _currenPlayer.ModelStatuesChanged();
         }
     }
 }
