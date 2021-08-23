@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152f0982f2b398b45bb9031ac767c4e8, type: 3}
+  m_Name: DefaultCardViewFactory
+  m_EditorClassIdentifier: 
+  _cardView:
+  - {fileID: 4228241219073981292, guid: e43c5e5989764c44a8dba6f7efa3e563, type: 3}
+  - {fileID: 150367904653843285, guid: fd48983b8c17d5244a36e888fadedf01, type: 3}
+  - {fileID: 1598732736984312204, guid: 1594afd8bc81bd94599f96c57672fc5c, type: 3}
+  - {fileID: 5175775707900631130, guid: d2e9792e3e8f0af46b9bc3730d624fc7, type: 3}
+  _cardNames:
+  - LineAttack
+  - PushBack
+  - SwipeAttack
+  - Teleport
