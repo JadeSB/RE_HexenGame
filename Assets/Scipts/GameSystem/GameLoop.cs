@@ -164,6 +164,8 @@ namespace GameSystem
             }
 
             CurrentPlayer = enemyViews[0];
+            CurrentPlayer.IsPlayer = true;            
+            CurrentPlayer.ModelStatuesChanged();
         }
     }
 }

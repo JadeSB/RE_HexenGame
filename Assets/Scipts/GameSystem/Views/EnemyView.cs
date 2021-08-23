@@ -8,15 +8,15 @@ namespace GameSystem.Views
     {
         private MeshRenderer _meshRenderer;
 
-        [SerializeField]
-        private bool _isPlayer;
+        //[SerializeField]
+        //private bool _isPlayer;
 
         [SerializeField]
         private PositionHelper _positionHelper = null;
 
         private BoardPiece _model;
 
-        public bool IsPlayer => _isPlayer;
+        public bool IsPlayer;/* => _isPlayer;*/
 
         [SerializeField]
         private Material _playermMaterial;
@@ -32,7 +32,7 @@ namespace GameSystem.Views
                 {
                     _model.PieceMoved -= ModelMoved;
                     _model.PieceTaken -= PieceTaken;
-                    _model.PlayerStatusChanged -= ModelStatuesChanged;
+                    //_model.PlayerStatusChanged -= ModelStatuesChanged;
                 }
 
                 _model = value;
@@ -41,7 +41,7 @@ namespace GameSystem.Views
                 {
                     _model.PieceMoved += ModelMoved;
                     _model.PieceTaken += PieceTaken;
-                    _model.PlayerStatusChanged += ModelStatuesChanged;
+                    //_model.PlayerStatusChanged += ModelStatuesChanged;
                 }
             }
         }
@@ -65,9 +65,17 @@ namespace GameSystem.Views
             Model = null;
         }
 
-        private void ModelStatuesChanged(object sender, EventArgs e)
+        //public void 
+
+        public void ModelStatuesChanged()
         {
-            if (Model.IsPlayer)
+            if (_meshRenderer == null || _originalMaterial == null)
+            {
+                _meshRenderer = GetComponentInChildren<MeshRenderer>();
+                _originalMaterial = _meshRenderer.sharedMaterial;
+            }
+
+            if (IsPlayer)
                 _meshRenderer.material = _playermMaterial;
             else
                 _meshRenderer.material = _originalMaterial;
@@ -75,8 +83,7 @@ namespace GameSystem.Views
 
         private void Start()
         {
-            _meshRenderer = GetComponentInChildren<MeshRenderer>();
-            _originalMaterial = _meshRenderer.sharedMaterial;
+            
 
             //GameLoop.Instance.Initialized += OnGameInitialized;
         }
