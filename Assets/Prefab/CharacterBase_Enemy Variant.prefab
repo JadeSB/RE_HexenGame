@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isPlayer: 0
   _positionHelper: {fileID: 11400000, guid: 2bbfdb2edbbd5a749b4c4e4123b48cef, type: 2}
+  _playermMaterial: {fileID: 2100000, guid: 9c5be38642dac0647924b8b07d840d0c, type: 2}
 --- !u!1001 &1911082585308025961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84,7 +85,7 @@ PrefabInstance:
     - target: {fileID: 9087700126203162500, guid: 65f39d1322719284f9f18b3d2d05f162,
         type: 3}
       propertyPath: m_Name
-      value: CharacterBase_Enemy
+      value: CharacterBase_Enemy Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65f39d1322719284f9f18b3d2d05f162, type: 3}

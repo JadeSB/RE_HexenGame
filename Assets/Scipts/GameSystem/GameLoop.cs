@@ -30,7 +30,7 @@ namespace GameSystem
         //private PlayerView _playerView;
         private List<EnemyView> _enemyViews = new List<EnemyView>();
 
-        private EnemyView _currentPlayer;
+        public EnemyView CurrentPlayer;
 
         private void Awake()
         {
@@ -107,7 +107,7 @@ namespace GameSystem
 
         private Tile GetPlayerTile()
         {
-            return Board.TileOf(_currentPlayer.Model);
+            return Board.TileOf(CurrentPlayer.Model);
         }
 
         public void Select(string name)
@@ -162,6 +162,8 @@ namespace GameSystem
 
                 _enemyViews.Add(enemyView);
             }
+
+            CurrentPlayer = enemyViews[0];
         }
     }
 }

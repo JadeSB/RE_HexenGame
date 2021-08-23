@@ -23,9 +23,26 @@ namespace GameSystem.Models
         public event EventHandler<PieceMovedEventArgs> PieceMoved;
         public event EventHandler PieceTaken;
 
+        public event EventHandler PlayerStatusChanged;
+
+        private bool _isPlayer = false;
+
         public bool HasMoved { get; set; } = false;
 
-        public bool IsPlayer { get; }
+        public bool IsPlayer {
+            get => _isPlayer;
+            internal set 
+            {
+                OnPlayerStatuesChanged(EventArgs.Empty);
+            }
+           
+        }
+
+        protected virtual void OnPlayerStatuesChanged(EventArgs args)
+        {
+            EventHandler handler = PlayerStatusChanged;
+            handler?.Invoke(this, args);
+        }
 
         public BoardPiece(bool isPlayer)
         {
@@ -52,6 +69,6 @@ namespace GameSystem.Models
         public void Taken()
         {
             OnPieceTaken(EventArgs.Empty);
-        }
+        }        
     }
 }
