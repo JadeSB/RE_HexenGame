@@ -33,12 +33,7 @@ namespace GameSystem
 
         public EnemyView CurrenPlayer;
 
-        StateMachine<GameStateBase> _stateMachine;
-
-        private void Update()
-        {
-            Debug.Log(CurrenPlayer);
-        }
+        StateMachine<GameStateBase> _stateMachine;       
 
         private void Awake()
         {
