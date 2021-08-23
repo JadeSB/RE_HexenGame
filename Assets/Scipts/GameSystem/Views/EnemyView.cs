@@ -31,8 +31,7 @@ namespace GameSystem.Views
                 if (_model != null)
                 {
                     _model.PieceMoved -= ModelMoved;
-                    _model.PieceTaken -= PieceTaken;
-                    //_model.PlayerStatusChanged -= ModelStatuesChanged;
+                    _model.PieceTaken -= PieceTaken;                  
                 }
 
                 _model = value;
@@ -40,8 +39,7 @@ namespace GameSystem.Views
                 if (_model != null)
                 {
                     _model.PieceMoved += ModelMoved;
-                    _model.PieceTaken += PieceTaken;
-                    //_model.PlayerStatusChanged += ModelStatuesChanged;
+                    _model.PieceTaken += PieceTaken;                   
                 }
             }
         }
@@ -63,9 +61,7 @@ namespace GameSystem.Views
         private void OnDestroy()
         {
             Model = null;
-        }
-
-        //public void 
+        }      
 
         public void ModelStatuesChanged()
         {
@@ -79,25 +75,6 @@ namespace GameSystem.Views
                 _meshRenderer.material = _playermMaterial;
             else
                 _meshRenderer.material = _originalMaterial;
-        }
-
-        private void Start()
-        {
-            
-
-            //GameLoop.Instance.Initialized += OnGameInitialized;
-        }
-
-        //private void OnGameInitialized(object sender, EventArgs e)
-        //{
-        //    //var board = GameLoop.Instance.Board;
-        //    //var boardPosition = _positionHelper.ToBoardPosition(transform.position);
-        //    //var tile = board.TileAt(boardPosition);
-
-        //    //Model = tile;
-
-        //    //var currentPlayer = GameLoop.Instance.CurrentPlayer;
-        //    //Model = currentPlayer.Model;
-        //}
+        }        
     }
 }
